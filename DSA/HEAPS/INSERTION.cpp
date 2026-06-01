@@ -25,7 +25,31 @@ class heap{
     }
     void print(){
         for(int i=0;i<=size;i++){
-            cout<<arr[i] .<<" ";
+            cout<<arr[i]<<" ";
+        }
+    }
+    void deleteheap(){
+        if(size==0){
+            cout<<"nothing to delete";
+            return;
+        }
+        arr[1]=arr[size];
+        size--;
+        int i=1;
+        while(i<size){
+            int left=2*i;
+            int right=2*i+1;
+            if(left<size && arr[i]<arr[left]){
+                swap(arr[i],arr[left]);
+                i=left;
+            }
+            else if(right<size && arr[i]<arr[right]){
+                swap(arr[i],arr[right]);
+                i=right;
+            }
+            else{
+                return;
+            }
         }
     }
 };
@@ -36,5 +60,6 @@ int main(){
     h.insert(53);
     h.insert(54);
     h.insert(52);
+    h.deleteheap();
     h.print();
 }
