@@ -1,5 +1,3 @@
-#include<iostream>
-using namespace std;
 class Trienode{
     public:
     char data;
@@ -13,10 +11,10 @@ class Trienode{
         isterminal=false;
     }
 };
-class trie{
+class Trie {
     public:
     Trienode* root;
-    trie(){
+    Trie(){
         root=new Trienode('\0');
     }
     void insertutil(Trienode* root,string word){
@@ -24,7 +22,7 @@ class trie{
             root->isterminal=true;
             return;
         }
-        int index=word[0]-'A';
+        int index=word[0]-'a';
         Trienode* child;
         if(root->children[index]!=NULL){
             child=root->children[index];
@@ -35,14 +33,11 @@ class trie{
         }
         insertutil(child,word.substr(1));
     }
-    void insertword(string word){
-        insertutil(root,word);
-    }
     bool searchutil(Trienode* root,string word){
         if(word.length()==0){
             return root->isterminal;
         }
-        int index=word[0]-'A';
+        int index=word[0]-'a';
         Trienode* child;
         if(root->children[index] !=NULL){
             child=root->children[index];
@@ -52,14 +47,35 @@ class trie{
         }
         return searchutil(child,word.substr(1));
     }
-    bool search(string word){
-        return searchutil(root,word);
+    void insert(string word) {
+        insertutil(root,word);
+    } 
+    bool search(string word) {
+        return searchutil(root,word);    
+    }
+    bool startutil(Trienode* root,string word){
+        if(word.length()==0){
+            return true;
+        }
+        int index=word[0]-'a';
+        Trienode* child;
+        if(root->children[index] !=NULL){
+            child=root->children[index];
+        }
+        else{
+            return false;
+        }
+        return startutil(child,word.substr(1));
+    }
+    bool startsWith(string prefix) {
+        return startutil(root,prefix);
     }
 };
-int main(){
-    trie* t = new trie();
-    t->insertword("ABCD");
-    cout<<"IMPLEMENTATION SUCCESSFUL";
-    cout<<"present orr not"<<tsearch("ABCD");
-    return 0;
-}
+
+/**
+ * Your Trie object will be instantiated and called as such:
+ * Trie* obj = new Trie();
+ * obj->insert(word);
+ * bool param_2 = obj->search(word);
+ * bool param_3 = obj->startsWith(prefix);
+ */
